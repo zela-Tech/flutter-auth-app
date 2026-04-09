@@ -7,8 +7,7 @@ class AuthenticationScreen extends StatefulWidget {
   const AuthenticationScreen({super.key});
 
   @override
-  State<AuthenticationScreen> createState() =>
-      _AuthenticationScreenState();
+  State<AuthenticationScreen> createState() => _AuthenticationScreenState();
 }
 
 class _AuthenticationScreenState extends State<AuthenticationScreen> {
@@ -36,6 +35,14 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
         await _authService.signIn(_emailController.text, _passwordController.text,);
       } else {
         await _authService.register(_emailController.text, _passwordController.text,);
+      }
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => const ProfileScreen(),
+          ),
+        );
       }
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -100,7 +107,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _isLoading ? null : _submit,
                   child: _isLoading 
                     ? const CircularProgressIndicator() 
                     : Text(_isLogin ? 'Sign In' : 'Register'),

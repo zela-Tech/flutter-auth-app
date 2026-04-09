@@ -65,6 +65,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 children: [
                   TextFormField(
                     controller: _newPasswordController,
+                    decoration: const InputDecoration(
+                      labelText: 'New Password',
+                      border: OutlineInputBorder(),
+                    ),
+                    obscureText: true,
+                    validator: (value) {
+                      if (value == null || value.length < 6) {
+                        return 'Password must be at least 6 characters';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 12),
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Update Password'),
+                    ),
                   ),
                 ],
               ),

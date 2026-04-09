@@ -70,6 +70,20 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                   return null;
                 },
               ),
+              const SizedBox(height: 16),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: Text(_isLogin ? 'Sign In' : 'Register'),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  setState(() { _isLogin = !_isLogin; });
+                },
+                child: Text(_isLogin ? 'No account? Register here' : 'Have an account? Sign in'),
+              ),
             ],
           ),
         ),

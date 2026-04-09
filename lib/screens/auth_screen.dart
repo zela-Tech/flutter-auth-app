@@ -15,6 +15,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
+  final AuthService _authService = AuthService();
 
   bool _isLogin = true;
   bool _isLoading = false;
@@ -26,7 +27,24 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
     _passwordController.dispose();
     super.dispose();
   }
+  Future<void> _submit() async {
+    if (!_formKey.currentState!.validate()) return;
+    setState(() { _isLoading = true; _errorMessage = ''; });
 
+    try {
+      if (_isLogin) {
+        await _authService.signIn(_emailController.text, _passwordController.text,);
+      } else {
+        await _authService.register(_emailController.text, _passwordController.text,);
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        _errorMessage = e.message ?? 'Authentication failed';
+      });
+    } finally {
+      if (mounted) setState(() { _isLoading = false; });
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(

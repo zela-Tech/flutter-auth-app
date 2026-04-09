@@ -17,6 +17,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   final _passwordController = TextEditingController();
 
   bool _isLogin = true;
+  bool _isLoading = false;
+  String _errorMessage = '';
 
   @override
   void dispose() {
@@ -71,11 +73,19 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                 },
               ),
               const SizedBox(height: 16),
+              if (_errorMessage.isNotEmpty)
+                Text(
+                  _errorMessage,
+                  style: const TextStyle(color: Colors.red),
+                ),
+              const SizedBox(height: 8),
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: () {},
-                  child: Text(_isLogin ? 'Sign In' : 'Register'),
+                  child: _isLoading 
+                    ? const CircularProgressIndicator() 
+                    : Text(_isLogin ? 'Sign In' : 'Register'),
                 ),
               ),
               TextButton(

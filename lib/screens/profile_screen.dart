@@ -14,6 +14,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final AuthService _authService = AuthService();
   final _newPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  
+  String _message = '';
+
 
   Future<void> _signOut() async {
     await _authService.signOut();
@@ -24,6 +27,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
           builder: (_) => const AuthenticationScreen(),
         ),
       );
+    }
+  }
+
+  Future<void> _changePassword() async {
+    if (!_formKey.currentState!.validate()) return;
+    try {
+      await _authService.changePassword(
+        _newPasswordController.text,
+      );
+      setState(() { _message = 'Password updated successfully!'; });
+      _newPasswordController.clear();
+    } on FirebaseAuthException catch (e) {
+      setState(() { _message = e.message ?? 'Update failed'; });
     }
   }
 
@@ -81,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: _changePassword,
                       child: const Text('Update Password'),
                     ),
                   ),

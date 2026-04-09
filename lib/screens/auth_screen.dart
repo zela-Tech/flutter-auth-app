@@ -16,6 +16,8 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  bool _isLogin = true;
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -27,7 +29,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Auth'),
+        title: Text(_isLogin ? 'Sign In' : 'Register'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

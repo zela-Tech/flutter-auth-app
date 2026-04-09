@@ -12,6 +12,8 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   final AuthService _authService = AuthService();
+  final _newPasswordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   Future<void> _signOut() async {
     await _authService.signOut();
@@ -51,6 +53,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Text(
               user?.email ?? 'Unknown',
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+            const Divider(height: 40),
+            const Text('Change Password',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 12),
+            Form(
+              key: _formKey,
+              child: Column(
+                children: [
+                  TextFormField(
+                    controller: _newPasswordController,
+                  ),
+                ],
+              ),
             ),
           ],
         ),

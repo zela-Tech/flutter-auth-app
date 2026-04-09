@@ -11,15 +11,30 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
+    final user = _authService.currentUser;
     return Scaffold(
       appBar: AppBar(
-        title: const Text('profile'),
+        title: const Text('Profile'),
       ),
-      body: const Center(
-        child: Text('profile Screen'),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text('Signed in as:',
+              style: TextStyle(fontSize: 14, color: Colors.grey),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              user?.email ?? 'Unknown',
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ),
     );
   }

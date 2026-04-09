@@ -13,12 +13,31 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final AuthService _authService = AuthService();
 
+  Future<void> _signOut() async {
+    await _authService.signOut();
+    if (mounted) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const AuthenticationScreen(),
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final user = _authService.currentUser;
     return Scaffold(
       appBar: AppBar(
         title: const Text('Profile'),
+        actions: [
+          IconButton(
+            icon:const Icon(Icons.logout),
+            tooltip:'Sign Out',
+            onPressed:_signOut,
+          ),
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

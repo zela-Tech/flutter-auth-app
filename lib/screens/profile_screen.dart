@@ -17,6 +17,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
   
   String _message = '';
 
+  @override
+  void dispose() {
+    _newPasswordController.dispose();
+    super.dispose();
+  }
 
   Future<void> _signOut() async {
     await _authService.signOut();
@@ -104,6 +109,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ],
               ),
             ),
+            const SizedBox(height: 12),
+            if (_message.isNotEmpty)
+              Text(_message,
+                style: TextStyle(color: _message.contains('success') ? Colors.green : Colors.red,
+                ),
+              ),
           ],
         ),
       ),

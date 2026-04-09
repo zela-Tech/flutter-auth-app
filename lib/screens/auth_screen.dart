@@ -46,7 +46,11 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       }
     } on FirebaseAuthException catch (e) {
       setState(() {
-        _errorMessage = e.message ?? 'Authentication failed';
+        if (e.code == 'network-request-failed') {
+          _errorMessage = 'Check your internet connection'; //network specific
+        } else {
+          _errorMessage = e.message ?? 'Authentication failed';
+        }
       });
     } finally {
       if (mounted) setState(() { _isLoading = false; });
